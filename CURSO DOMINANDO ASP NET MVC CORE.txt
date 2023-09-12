@@ -1,0 +1,5 @@
+--CURSO DOMINANDO ASP NET MVC CORE
+--LIBMAN
+
+--Bundle e minifier extensão visual studio baixar e utilizar
+ex: no projeto

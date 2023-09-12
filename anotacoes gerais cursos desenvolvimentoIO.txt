@@ -1,0 +1,55 @@
+ --CURSO INICIANDO COM ASP.NET CORE
+--VERSIONAMENTO DO .NET & CLI
+--ANOTAÇÕES IMPORTANTES GERAIS DO CURSO
+
+dotnet --info
+
+dotnet --list-sdks
+
+dotnet --version
+
+dotnet new -l ou dotnet new list lista de projetos
+
+mkdir
+
+--CERTIFICADO HTTPS NO .NET QUANDO CRIAR UM PROJETO E PEDIR PARA CRIAR
+dotnet dev-certs https cria o certificado HTTPS PARA O DOTNET
+dotnet dev-certs https --check CHECA
+dotnet dev-certs https --clean LIMPA
+dotnet dev-certs https --check --trust CHECA SE EXISTE UM CONFIAVEL
+dotnet dev-certs https --trust CONFIA NO CERTIFICADO INSTALADO
+EM ALGUNS CASOS REINICIA A MÁQUINA
+
+
+Kestrel e proxy reverso
+
+
+--vs code
+instalar extensões
+-> C#
+-> C# Dev Kit - Licenciável mesmos termos no VS Community
+------------------------------------------------------------
+
+NetDevPack da desenvolvedor.IO no nuget, na página auxilia na codificação do códigos repetitivos.
+
+--Middleware
+var sw = StopWatch.StartNew();
+sw.Elapsed.TotalSeconds
+StopWatch.StartNew() => mudar no controller do serviço quanto tempo demora o envio do evento
+
+
+--PROGRAM.CS
+
+app.UseAuthentication();
+app.UseAuthorization(); NESSA ORDEM, NÃO INVERTER
+
+
+-----------------------------------------------------
+mvc
+razor pages
+Blazor (SPA)
+
+Minimal APIs no canal de desenvolvimento.IO
+-----------------------------------------------------
+
+
