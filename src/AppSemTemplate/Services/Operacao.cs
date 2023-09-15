@@ -1,6 +1,4 @@
-﻿using static System.Formats.Asn1.AsnWriter;
-
-namespace AppSemTemplate.Services
+﻿namespace AppSemTemplate.Services
 {
     public class OperacaoService
     {

@@ -1,12 +1,18 @@
 using AppSemTemplate.Data;
 using AppSemTemplate.Extensions;
 using AppSemTemplate.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
+//builder.Services.AddControllersWithViews();
+
+//opção para evitar CRSF, dessa forma não precisa decorar nas actions nos controllers
+builder.Services.AddControllersWithViews(options => {
+    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+});
 
 // Adicionando suporte a mudança de convenção da rota das areas. MUDANÇA NOME PASTA [AREA] => [MÓDULOS]
 builder.Services.Configure<RazorViewEngineOptions>(options =>
