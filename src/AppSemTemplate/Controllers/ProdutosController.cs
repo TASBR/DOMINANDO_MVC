@@ -2,9 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using AppSemTemplate.Data;
 using AppSemTemplate.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AppSemTemplate.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("meus-produtos")]
     public class ProdutosController : Controller
     {
@@ -15,14 +17,18 @@ namespace AppSemTemplate.Controllers
             _context = context;
         }
 
+        [Authorize(Policy = "VerProdutos")]
+
         public async Task<IActionResult> Index()
         {
+            var user = HttpContext.User.Identity;
             return _context.Produtos != null ?
                         View(await _context.Produtos.ToListAsync()) :
                         Problem("Entity set 'AppDbContext.Produtos'  is null.");
         }
 
         [Route("detalhes/{id}")]
+        [Authorize(Policy = "VerProdutos")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Produtos == null)
@@ -108,6 +114,7 @@ namespace AppSemTemplate.Controllers
         }
 
         [Route("excluir/{id}")]
+        [Authorize(Policy = "PodeExcluirPermanentemente")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Produtos == null)
@@ -127,6 +134,7 @@ namespace AppSemTemplate.Controllers
 
         [HttpPost("excluir/{id}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "PodeExcluirPermanentemente")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Produtos == null)

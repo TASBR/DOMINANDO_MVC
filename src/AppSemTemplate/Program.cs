@@ -11,13 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 //builder.Services.AddControllersWithViews();
 
-//opção para evitar CRSF, dessa forma não precisa decorar nas actions nos controllers
+//opï¿½ï¿½o para evitar CRSF, dessa forma nï¿½o precisa decorar nas actions nos controllers
 builder.Services.AddControllersWithViews(options =>
 {
     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
 });
 
-// Adicionando suporte a mudança de convenção da rota das areas. MUDANÇA NOME PASTA [AREA] => [MÓDULOS]
+// Adicionando suporte a mudanï¿½a de convenï¿½ï¿½o da rota das areas. MUDANï¿½A NOME PASTA [AREA] => [Mï¿½DULOS]
 builder.Services.Configure<RazorViewEngineOptions>(options =>
 {
     options.AreaViewLocationFormats.Clear();
@@ -44,8 +44,20 @@ o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {
     options.SignIn.RequireConfirmedAccount = true;
-}).AddEntityFrameworkStores<AppDbContext>();//TRABALHANDO COM ENTITY FRAMEWORK
+}).AddRoles<IdentityRole>()
+  .AddEntityFrameworkStores<AppDbContext>();//TRABALHANDO COM ENTITY FRAMEWORK
 //*******************************
+
+builder.Services.AddAuthorization(options =>
+{
+    //USE POLICY
+    options.AddPolicy("PodeExcluirPermanentemente", policy =>
+    policy.RequireRole("Admin"));
+
+    //USE CLAIMS
+    options.AddPolicy("VerProdutos", policy =>
+    policy.RequireClaim("Produtos", "VI"));
+});
 var app = builder.Build();
 
 //HTTPS SEGURANCA
