@@ -3,10 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using AppSemTemplate.Data;
 using AppSemTemplate.Models;
 using Microsoft.AspNetCore.Authorization;
+using AppSemTemplate.Extensions;
 
 namespace AppSemTemplate.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     [Route("meus-produtos")]
     public class ProdutosController : Controller
     {
@@ -17,8 +18,7 @@ namespace AppSemTemplate.Controllers
             _context = context;
         }
 
-        [Authorize(Policy = "VerProdutos")]
-
+        [ClaimsAuthorize("Produtos", "VI")]
         public async Task<IActionResult> Index()
         {
             var user = HttpContext.User.Identity;
@@ -28,7 +28,7 @@ namespace AppSemTemplate.Controllers
         }
 
         [Route("detalhes/{id}")]
-        [Authorize(Policy = "VerProdutos")]
+        [ClaimsAuthorize("Produtos", "VI")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Produtos == null)
@@ -47,11 +47,14 @@ namespace AppSemTemplate.Controllers
         }
 
         [Route("criar-novo")]
+        [ClaimsAuthorize("Produtos", "AD")]
         public IActionResult CriarNovoProduto()
         {
             return View("Create");
         }
+        //AD,VI,ED,EX
 
+        [ClaimsAuthorize("Produtos", "AD")]
         [HttpPost("criar-novo")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CriarNovoProduto([Bind("Id,Nome,Imagem,Valor")] Produto produto)
@@ -65,6 +68,7 @@ namespace AppSemTemplate.Controllers
             return View("Create", produto);
         }
 
+        [ClaimsAuthorize("Produtos", "ED")]
         [Route("editar-produto/{id}")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -81,6 +85,7 @@ namespace AppSemTemplate.Controllers
             return View(produto);
         }
 
+        [ClaimsAuthorize("Produtos", "ED")]
         [HttpPost("editar-produto/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Imagem,Valor")] Produto produto)
@@ -113,8 +118,9 @@ namespace AppSemTemplate.Controllers
             return View(produto);
         }
 
+        [ClaimsAuthorize("Produtos", "EX")]
+        //[Authorize(Policy = "PodeExcluirPermanentemente")]
         [Route("excluir/{id}")]
-        [Authorize(Policy = "PodeExcluirPermanentemente")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Produtos == null)
@@ -134,7 +140,7 @@ namespace AppSemTemplate.Controllers
 
         [HttpPost("excluir/{id}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "PodeExcluirPermanentemente")]
+        [ClaimsAuthorize("Produtos", "EX")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Produtos == null)
