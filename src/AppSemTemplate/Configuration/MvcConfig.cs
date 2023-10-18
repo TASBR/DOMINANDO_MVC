@@ -1,4 +1,5 @@
 ﻿using AppSemTemplate.Data;
+using AppSemTemplate.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,12 @@ namespace AppSemTemplate.Configuration
     {
         public static WebApplicationBuilder AddMvcConfiguration(this WebApplicationBuilder builder)
         {
+            builder.Configuration
+                   .SetBasePath(builder.Environment.ContentRootPath)
+                   .AddJsonFile("appsettings.json", true, true)
+                   .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true, true)
+                   .AddEnvironmentVariables();
+
             //opcao para evitar CRSF, dessa forma nao precisa decorar nas actions nos controllers
             builder.Services.AddControllersWithViews(options =>
             {
@@ -33,6 +40,8 @@ namespace AppSemTemplate.Configuration
             });
 
             builder.Services.AddDbContext<AppDbContext>(o => o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            
+            builder.Services.AddRouting(options => options.ConstraintMap["slugfy"] = typeof(RouteSlugifyParameterTransformer));
 
             return builder;
         }

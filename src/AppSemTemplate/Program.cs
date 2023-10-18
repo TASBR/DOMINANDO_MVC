@@ -7,7 +7,6 @@ builder.AddMvcConfiguration()
        .AddDependencyInjectionConfiguration();
 
 
-//builder.Services.AddRouting(options => options.ConstraintMap["slugfy"] = typeof(RouteSlugifyParameterTransformer));
 
 var app = builder.Build();
 
