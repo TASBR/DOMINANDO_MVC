@@ -3,6 +3,7 @@ using AppSemTemplate.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace AppSemTemplate.Configuration
 {
@@ -14,7 +15,8 @@ namespace AppSemTemplate.Configuration
                    .SetBasePath(builder.Environment.ContentRootPath)
                    .AddJsonFile("appsettings.json", true, true)
                    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true, true)
-                   .AddEnvironmentVariables();
+                   .AddEnvironmentVariables()
+                   .AddUserSecrets(Assembly.GetExecutingAssembly(), true);
 
             //opcao para evitar CRSF, dessa forma nao precisa decorar nas actions nos controllers
             builder.Services.AddControllersWithViews(options =>

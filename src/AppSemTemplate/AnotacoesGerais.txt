@@ -6,3 +6,8 @@ EXECUTAR UM PERFIL EXCLUSIVO NA MÃO
 dotnet run --launch-profile "production" //só funciona se rodar no kestrel
 
 --para saber em qual ambiente está rodando
+
+--USER SECRETS
+USANDO cli
+estar no diretório do projeto e digitar
+dotnet user-secrets init

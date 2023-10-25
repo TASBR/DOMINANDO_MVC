@@ -7,6 +7,7 @@
     <RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>False</RunAnalyzersDuringLiveAnalysis>
     <EnableNETAnalyzers>False</EnableNETAnalyzers>
+    <UserSecretsId>2dce220a-d566-4246-a3f8-aba4e9b9a8a8</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

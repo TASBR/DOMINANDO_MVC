@@ -20,6 +20,14 @@ namespace AppSemTemplate.Controllers
         public IActionResult Index()
         {
             var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            var apiConfig = new ApiConfiguration();
+            Configuration.GetSection(ApiConfiguration.ConfigName).Bind(apiConfig);
+
+            var secret = apiConfig.UserSecret;
+            var user = Configuration[$"{ApiConfiguration.ConfigName}.UserKey"];
+            var domain = ApiConfig.Domain;
+
             return View();
         }
     }
