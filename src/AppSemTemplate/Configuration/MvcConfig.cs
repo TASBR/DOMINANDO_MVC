@@ -31,7 +31,8 @@ namespace AppSemTemplate.Configuration
                 options.AreaViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
             });
 
-            builder.Services.AddHsts(options => {
+            builder.Services.AddHsts(options =>
+            {
                 options.Preload = true;
                 options.IncludeSubDomains = true;
                 options.MaxAge = TimeSpan.FromDays(60);
@@ -40,9 +41,12 @@ namespace AppSemTemplate.Configuration
             });
 
             builder.Services.AddDbContext<AppDbContext>(o => o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-            
+
             builder.Services.AddRouting(options => options.ConstraintMap["slugfy"] = typeof(RouteSlugifyParameterTransformer));
 
+            //Globalizar as informações da API CONFIG NO APP SETTINGS
+            builder.Services.Configure<ApiConfiguration>(
+                builder.Configuration.GetSection(ApiConfiguration.ConfigName));
             return builder;
         }
 
